@@ -9,6 +9,7 @@ import { IoCartOutline, IoSearchOutline } from 'react-icons/io5'
 
 export const TopMenu = () => {
   
+    // zustand - manejo de estados
     const openSideMenu = useStore( state => state.openSideMenu )
 
     return (
@@ -29,7 +30,7 @@ export const TopMenu = () => {
         <div className='hidden sm:block'>
             <Link className='m-2 p-2 rounded-md transition-all hover:bg-gray-100' href="/category/men">Hombres</Link>
             <Link className='m-2 p-2 rounded-md transition-all hover:bg-gray-100' href="/category/women">Mujeres</Link>
-            <Link className='m-2 p-2 rounded-md transition-all hover:bg-gray-100' href="/category/kids">Niños</Link>
+            <Link className='m-2 p-2 rounded-md transition-all hover:bg-gray-100' href="/category/kid">Niños</Link>
         </div>
 
         {/* Search, cart, menu */}
