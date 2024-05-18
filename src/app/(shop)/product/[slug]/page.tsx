@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { initialData } from "@/seed/seed";
 import { titleFont } from "@/config/fonts";
-import { QuantitySelector, SizeSelector } from "@/components";
+import { ProductMobileSlideshow, ProductSlideshow, QuantitySelector, SizeSelector } from "@/components";
 
 interface Props {
     params: {
@@ -20,10 +20,26 @@ export default function({ params }: Props) {
     
     return (
         <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3">
+            
             {/* Slideshow - images */}
+            {/* Mobile slideshow */}
             <div className="col-span-1 md:col-span-2">
-
+                <ProductMobileSlideshow 
+                    title={ product.title }
+                    images={ product.images }
+                    className="block md:hidden" // validando mostrar uno u otro slider, en la pantalla normal y pantallas pequeñas
+                />
             </div>
+
+            {/* Desktop slideshow */}
+            <div className="col-span-1 md:col-span-2">
+                <ProductSlideshow 
+                    title={ product.title }
+                    images={ product.images }
+                    className="hidden md:block" // validando mostrar uno u otro slider, en la pantalla normal y pantallas pequeñas
+                />
+            </div>
+
 
             {/* Detalles */}
             <div className="col-span-1 px-5">
@@ -33,18 +49,16 @@ export default function({ params }: Props) {
                 <p className="text-lg mb-5">${ product.price }</p>
 
                 {/* Selector de tallas */}
-
+                <SizeSelector 
+                    selectedSize={ product.sizes[0] }
+                    availableSizes={ product.sizes } 
+                />
 
                 {/* Selector de cantidad */}
                 <QuantitySelector
                     quantity={2}
                 />
 
-
-                <SizeSelector 
-                    selectedSize={ product.sizes[0] }
-                    availableSizes={ product.sizes } 
-                />
 
                 {/* Button */}
                 <button className="btn-primary my-5">
