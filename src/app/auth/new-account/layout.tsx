@@ -1,7 +1,9 @@
-export default function ShopLayout ({ children }: { children: React.ReactNode} ) {
+export default function AuthLayout ({ children }: { children: React.ReactNode} ) {
     return (
-        <main className="min-h-screen bg-red-500">
-            { children }
-        </main>
+        <div className="flex justify-center">
+            <div className="w-full sm:w-[350px] px-10">
+                { children }
+            </div>
+        </div>
     )
 }
