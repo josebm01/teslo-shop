@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15.3
+    restart: always # se levante la imagen cuando se inicia el servicio de docker
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes: # se crea en el proyecto para almacenar información de la base de datos y no se afecte cuando se elimine la imagen
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
