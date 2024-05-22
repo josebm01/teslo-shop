@@ -16,20 +16,19 @@ datasource db {
 enum Size {
   XS
   S
-  M 
-  L 
+  M
+  L
   XL
-  XXL 
+  XXL
   XXXL
 }
 
 enum Gender {
-  men 
-  woman
+  men
+  women
   kid
   unisex
 }
-
 
 model Category {
   id      String    @id @default(uuid())
@@ -39,6 +38,7 @@ model Category {
 
 model Product {
   id          String   @id @default(uuid())
+  title       String
   description String 
   inStock     Int 
   price       Float    @default(0)
