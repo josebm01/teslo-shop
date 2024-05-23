@@ -1,10 +1,27 @@
+import { getPaginatedProductsWithImages } from "@/actions";
 import { ProductGrid, Title } from "@/components";
-import { initialData } from "@/seed/seed";
+import { redirect } from "next/navigation";
 
 
-const products = initialData.products
+interface Props {
+  searchParams: {
+    page?: string;
+  }
+}
 
-export default function Home() {
+
+export default async function Home({ searchParams }: Props ) {
+
+  // si el parámetro es una letra entonces tomará la página 1 
+  const page = searchParams.page ? parseInt( searchParams.page ) : 1
+
+  const { products } = await getPaginatedProductsWithImages({ page });
+
+  // si se agrega una página que no existe entonces redirecciona a la página principal
+  if ( products.length === 0 ) {
+    redirect('/')
+  }
+
   return (
     <>
       <Title 
