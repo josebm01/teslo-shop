@@ -1,5 +1,5 @@
 import { getPaginatedProductsWithImages } from "@/actions";
-import { ProductGrid, Title } from "@/components";
+import { Pagination, ProductGrid, Title } from "@/components";
 import { redirect } from "next/navigation";
 
 
@@ -15,7 +15,7 @@ export default async function Home({ searchParams }: Props ) {
   // si el parámetro es una letra entonces tomará la página 1 
   const page = searchParams.page ? parseInt( searchParams.page ) : 1
 
-  const { products } = await getPaginatedProductsWithImages({ page });
+  const { products, currentPage, totalPages } = await getPaginatedProductsWithImages({ page });
 
   // si se agrega una página que no existe entonces redirecciona a la página principal
   if ( products.length === 0 ) {
@@ -31,6 +31,8 @@ export default async function Home({ searchParams }: Props ) {
         />
 
         <ProductGrid products={products} /> 
+
+        <Pagination totalPages={ totalPages } />
 
     </>
   );
