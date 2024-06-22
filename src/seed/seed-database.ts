@@ -6,32 +6,39 @@ async function main() {
     //? 1.  Eliminar datos de la base de datos
 
     await Promise.all([
+        prisma.user.deleteMany(),
         prisma.productImage.deleteMany(),
         prisma.product.deleteMany(),
         prisma.category.deleteMany()
     ])
 
-    const { categories, products } = initialData
+    // await prisma.user.deleteMany(),
+    // await prisma.productImage.deleteMany(),
+    // await prisma.product.deleteMany(),
+    // await prisma.category.deleteMany()
+
+
+    const { categories, products, users } = initialData
+
+    //? Usuarios    
+    await prisma.user.createMany({
+        data: users
+    })
+
 
     //? 2. Categorías
     // creando array de objetos con la categoría
-     const catagoriesData = categories.map( category => ({
-        name: category
-     }))
+     const catagoriesData = categories.map( category => ({ name: category }))
 
      // insertando las categorías
-     await prisma.category.createMany({
-        data: catagoriesData
-     })
+     await prisma.category.createMany({ data: catagoriesData })
 
      // obteniendo cateogorías de la db
      const categoriesDB = await prisma.category.findMany()
 
      // creando arreglo con los categorías
      const categoriesMap = categoriesDB.reduce( (map, category) => {
-       
         map[ category.name.toLowerCase() ] = category.id
-        
         return map
      }, {} as Record<string, string>)// <string=shirt, string=categoryId>
 

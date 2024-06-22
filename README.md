@@ -10,4 +10,7 @@ Tienda en línea
 6. Ejecutar seed ```npm run seed```
 6. Correr proyecto ```npm run dev```
 
+Agregar un nuevo modelo
+```npx prisma migrate dev --name NAME-MIGRATE```
+
 # Correr en prod 

@@ -1,5 +1,5 @@
-export interface Product {
-    id: string;
+export interface SeedProduct {
+    // id: string;
     description: string;
     images: string[];
     inStock: number;
@@ -8,7 +8,7 @@ export interface Product {
     slug: string;
     tags: string[];
     title: string;
-    // type: Type;
+    type: Type;
     gender: Category;
   }
 
@@ -22,6 +22,12 @@ export interface Product {
     image: string;
   }
 
+  export interface SeedUser {
+    email: string;
+    name: string;
+    password: string;
+    role: 'admin'|'user';
+  }
   
   export type Category = 'men'|'women'|'kid'|'unisex';
   export type Size = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'XXXL';

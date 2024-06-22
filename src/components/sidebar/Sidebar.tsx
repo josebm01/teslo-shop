@@ -1,14 +1,21 @@
 'use client'
 
+import { logout } from "@/actions"
 import { useStore } from "@/store"
 import clsx from "clsx"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { IoCloseOutline, IoLogInOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline, IoSearchOutline, IoShirtOutline, IoTicketOutline } from "react-icons/io5"
 
 export const Sidebar = () => {
 
+    // estados de zustad
     const isSideMenuOpen = useStore( state => state.isSideMenuOpen )
-    const closeMenuOpen = useStore( state => state.closeSideMenu )
+    const closeMenu = useStore( state => state.closeSideMenu )
+
+    // hook
+    const { data: session } = useSession()
+    console.log( session )
 
   return (
     <div>
@@ -17,7 +24,7 @@ export const Sidebar = () => {
             isSideMenuOpen && (
                 <>
                     <div className="fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30" />
-                    <div onClick={ closeMenuOpen } className="fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-sm" />
+                    <div onClick={ closeMenu } className="fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-sm" />
                 </>
             )
         }
@@ -36,7 +43,7 @@ export const Sidebar = () => {
             <IoCloseOutline
                 size={ 30 }
                 className="absolute top-5 right-5 cursor-pointer"
-                onClick={ closeMenuOpen }
+                onClick={ closeMenu }
             />
 
             {/* Input  */}
@@ -51,7 +58,8 @@ export const Sidebar = () => {
 
             {/* Menu */}
             <Link
-                href='/'
+                href='/profile'
+                onClick={ () => closeMenu }
                 className="flex items-center mt-1 p-2 hover:bg-gray-200 rounded transition-all"
             >
                 <IoPersonOutline size={25}/>
@@ -67,8 +75,9 @@ export const Sidebar = () => {
             </Link>
 
             <Link
-                href='/'
+                href='/auth/login'
                 className="flex items-center mt-1 p-2 hover:bg-gray-200 rounded transition-all"
+                onClick={ () => closeMenu() }
             >
                 <IoLogInOutline size={25}/>
                 <span className="ml-3 text-md">Ingresar</span>            
@@ -76,7 +85,7 @@ export const Sidebar = () => {
 
             <Link
                 href='/'
-                className="flex items-center mt-1 p-2 hover:bg-gray-200 rounded transition-all"
+                className="flex w-full items-center mt-1 p-2 hover:bg-gray-200 rounded transition-all"
             >
                 <IoLogOutOutline size={25}/>
                 <span className="ml-3 text-md">Salir</span>            
