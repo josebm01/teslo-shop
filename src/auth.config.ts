@@ -5,11 +5,28 @@ import { z } from 'zod'
 import prisma from "./lib/prisma"
 import bcryptjs from "bcryptjs"
 
-// handles: regresa las peticiones GET y POST
+// handlers: regresa las peticiones GET y POST
 export const { handlers, signIn, signOut, auth } = NextAuth({ 
     pages: {
         signIn: '/auth/login',
         newUser: '/auth/new-account'
+    },
+    callbacks: {
+        jwt({ token, user }){
+
+            if ( user ) {
+                // agregando los datos del usuario autenticado al token
+                token.data = user 
+            }
+            
+            console.log({ token })
+            return token 
+        },
+
+        session({ session, token, user }) {
+            session.user = token.data as any
+            return session
+        }
     },
     providers: [ 
         // GitHub,
@@ -38,8 +55,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     
                     // retornando el usuario sin el password
                     const { password: _, ...rest } = user
-    
-                    console.log({ rest })
     
                     return rest
 

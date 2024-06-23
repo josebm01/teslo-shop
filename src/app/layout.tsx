@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { inter } from "@/config/fonts";
-import { auth } from "@/auth.config";
-import { redirect } from "next/navigation";
 import { Provider } from "@/components";
 
 
@@ -16,16 +14,10 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
 
-  // const session = await auth()
-
-  // if ( session?.user ){
-  //   redirect('/')    
-  // }
-
-
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* Provider para la sessión */}
         <Provider>{children}</Provider>
       </body>
     </html>
