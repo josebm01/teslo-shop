@@ -35,7 +35,7 @@ export const authConfig: NextAuthConfig = {
                 token.data = user 
             }
             
-            console.log({ token })
+            // console.log({ token })
             return token 
         },
 
