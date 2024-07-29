@@ -1,8 +1,11 @@
 'use client'
 
-import type { Country } from "@/interfaces";
+import { deleteUserAddress, setUserAddress } from "@/actions";
+import type { Address, Country } from "@/interfaces";
 import { useAddressStore } from "@/store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -18,25 +21,38 @@ interface FormInputs {
     rememberAddress: boolean;
 }
 
+
 interface Props {
     countries: Country[];
+    userStoredAddress?:Partial<Address> // indicando que las propiedades de Address son opcionales
 }
 
 
 
+export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
 
-export const AddressForm = ({ countries }: Props) => {
+    //navegación
+    const router = useRouter()
 
+    // hook para el formulario
     const { handleSubmit, register, formState: { isValid }, reset } = useForm<FormInputs>({
         //? valores por defecto
         defaultValues: {
-            // leer de la base de datos
+          //  mostrando de la base de datos
+            ...(userStoredAddress as any), 
+            rememberAddress: false
         }
+    })
+
+    // obteniendo id de usuario de la sesión
+    const { data: session } = useSession({
+      required: true // indica que debe estar logueado el usuario
     })
 
     // estado de zustand    
     const setAddress = useAddressStore( state => state.setAddress )
     const address = useAddressStore( state => state.address )
+
 
     useEffect(() => {
         // obteniendo la dirección si está en localstorage
@@ -46,10 +62,24 @@ export const AddressForm = ({ countries }: Props) => {
     }, [])
     
 
-    const onSubmit = ( data: FormInputs ) => {
+    const onSubmit = async ( data: FormInputs ) => {
         // Guardando por medio de la acción de Zustand a localstorage
-        setAddress(data)
+        setAddress( data )
+
+        const { rememberAddress, ...restAddress } = data
+
+        // Recordar dirección
+        if ( rememberAddress ) {
+          // Llamar Server Action para guardar la dirección
+          await setUserAddress( restAddress, session?.user.id )
+        } else {
+          // No quiere recordar dirección - Llamar server action para eliminar la dirección guardada en la base de datos
+          await deleteUserAddress(session!.user.id)
+        }
+
+        router.push('/checkout')
     }
+    
 
   return (
       <form onSubmit={ handleSubmit( onSubmit ) } className="grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2">

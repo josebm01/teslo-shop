@@ -7,6 +7,7 @@ async function main() {
     //? 1.  Eliminar datos de la base de datos
 
     await Promise.all([
+        prisma.userAddress.deleteMany(),
         prisma.user.deleteMany(),
         prisma.country.deleteMany(),
         prisma.productImage.deleteMany(),
@@ -76,7 +77,6 @@ async function main() {
 
      })
      
-  
     console.log('seed ejecutado correctamente') 
 }
 
