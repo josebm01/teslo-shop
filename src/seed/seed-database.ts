@@ -12,7 +12,10 @@ async function main() {
         prisma.country.deleteMany(),
         prisma.productImage.deleteMany(),
         prisma.product.deleteMany(),
-        prisma.category.deleteMany()
+        prisma.category.deleteMany(),
+        prisma.orderAddress.deleteMany(),
+        prisma.orderItem.deleteMany(),
+        prisma.order.deleteMany()
     ])
 
     // await prisma.user.deleteMany(),

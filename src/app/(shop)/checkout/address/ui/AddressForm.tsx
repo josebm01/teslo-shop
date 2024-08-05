@@ -63,21 +63,22 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
     
 
     const onSubmit = async ( data: FormInputs ) => {
-        // Guardando por medio de la acción de Zustand a localstorage
-        setAddress( data )
+      
+      const { rememberAddress, ...restAddress } = data
+      
+      // Guardando por medio de la acción de Zustand a localstorage
+      setAddress( restAddress )
 
-        const { rememberAddress, ...restAddress } = data
+      // Recordar dirección
+      if ( rememberAddress ) {
+        // Llamar Server Action para guardar la dirección
+        await setUserAddress( restAddress, session?.user.id )
+      } else {
+        // No quiere recordar dirección - Llamar server action para eliminar la dirección guardada en la base de datos
+        await deleteUserAddress(session!.user.id)
+      }
 
-        // Recordar dirección
-        if ( rememberAddress ) {
-          // Llamar Server Action para guardar la dirección
-          await setUserAddress( restAddress, session?.user.id )
-        } else {
-          // No quiere recordar dirección - Llamar server action para eliminar la dirección guardada en la base de datos
-          await deleteUserAddress(session!.user.id)
-        }
-
-        router.push('/checkout')
+      router.push('/checkout')
     }
     
 
