@@ -55,6 +55,62 @@ export const placeOrder = async ( productIds: ProductToOrder[], address: Address
 
 
     //! Crear la transacción en la base de datos
+    const prismaTx = await prisma.$transaction( async( tx ) => {
 
+        // 1. Actualizar el stock de los productos
+
+        // 2. Crear la orden - encabezado - detalles
+        const order = await tx.order.create({
+            data: {
+                userId: userId,
+                itemsInOrder: itemsInOrder,
+                subTotal: subTotal,
+                tax: tax,
+                total: total,
+
+                // detalle de los productos
+                OrderItem: {
+                    createMany: 
+                    {
+                        data: productIds.map( p => ({
+                            quantity: p.quantity,
+                            size: p.size,
+                            productId: p.productId,
+                            price: products.find( product => product.id === p.productId )?.price ?? 0
+                        }))
+                    }
+                }
+            }
+        })
+
+        // Valiar, si el price es cero, entonces, lanzar un error
+
+        
+        // 3. Crear la dirección de la orden
+        const { country, ...restAddress } = address; 
+        const orderAddress = await tx.orderAddress.create({
+ 
+            data: {
+                firstName: restAddress.firstName,             
+                lastName: restAddress.lastName, 
+                address: restAddress.address,
+                address2: restAddress.address2,
+                postalCode: restAddress.postalCode,
+                city: restAddress.city,
+                phone: restAddress.phone,
+                //...restAddress,     
+                orderId: order.id,
+                countryId: country, 
+            }
+        });
+
+        // devolviendo los datos de la orden
+        return {
+            updatedProducts: [],
+            order: order,
+            orderAddress: orderAddress
+        }
+
+    })
 
 }
