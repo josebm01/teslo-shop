@@ -24,7 +24,7 @@ export default function({ params }: Props) {
     return (
         <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
             <div className="flexc flex-col w-[1000px]">
-                <Title title={`Orden ${id}`} />
+                <Title title={`Orden #${id}`} />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                     {/* Carrito */}

@@ -5,11 +5,14 @@ import { useEffect, useState } from "react";
 import { placeOrder } from "@/actions";
 import { useAddressStore, useCartStore } from "@/store";
 import { currencyFormat } from "@/utils";
+import { useRouter } from "next/navigation";
 
 
 export const PlaceOrder = () => {
 
+  const router = useRouter()
   const [loaded, setLoaded] = useState( false )
+  const [errorMessage, setErrorMessage] = useState( '' )
   const [ isPlacingOrder, setIsPlacingOrder ] = useState( false )
 
   const address = useAddressStore( state => state.address )
@@ -17,6 +20,7 @@ export const PlaceOrder = () => {
 
   // carrito de compras
   const cart = useCartStore( state => state.cart )
+  const clearCart = useCartStore( state => state.clearCart )
 
 
   useEffect(() => {
@@ -35,12 +39,22 @@ export const PlaceOrder = () => {
     }))
 
     // Server action
-    // console.log({ address, productsToOrder })
-
     const res = await placeOrder( productsToOrder, address )
     console.log({ res })
+
+    if ( !res.ok ) {
+      setIsPlacingOrder( false )
+      setErrorMessage( res.message )
+      return
+    }
+
+    // Se registró OK
+    // Limpiar carrito
+    clearCart()
+
+    // Redireccionar
+    router.replace('/orders/' + res.order?.id)
     
-    setIsPlacingOrder( false )
   }
 
 
@@ -94,7 +108,7 @@ export const PlaceOrder = () => {
           </span>
         </p>
 
-        {/* <p className="text-red-500">Error de creación</p> */}
+        <p className="text-red-500">{ errorMessage }</p>
 
         <button 
             // href="/orders/123" 
