@@ -7,8 +7,8 @@ interface Props {
 }
 
 
-// Provider para manejar la sesisón del usuario
-export const Provider = ({ children }: Props) => {
+// Provider para manejar la sesión del usuario
+export const Providers = ({ children }: Props) => {
   return (
     <SessionProvider>
         { children }

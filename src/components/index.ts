@@ -1,6 +1,6 @@
 
 // Providers
-export * from "./provider/Provider";
+export * from "./providers/Providers";
 
 // product
 export { SizeSelector } from "./product/size-selector/SizeSelector";
