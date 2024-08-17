@@ -1,18 +1,11 @@
 import { getOrderById } from "@/actions";
-import { QuantitySelector, Title } from "@/components";
-import { initialData } from "@/seed/seed";
+import { PayPalButton, Title } from "@/components";
 import { currencyFormat } from "@/utils";
 import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { IoCardOutline } from "react-icons/io5";
 
-const productsInCart = [
-    initialData.products[0],
-    initialData.products[1],
-    initialData.products[2],
-]
 
 interface Props {
    params: {
@@ -121,9 +114,11 @@ export default async function({ params }: Props) {
 
                         </div>
 
+                        
                         <div className="mt-5 mb-2 w-full">   
+                            <PayPalButton />
 
-                            <div className={
+                            {/* <div className={
                                 clsx(
                                     "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
                                     {
@@ -140,7 +135,7 @@ export default async function({ params }: Props) {
                                         order?.isPaid ? 'Pagada' : 'No pagada'
                                     }
                                 </span>
-                            </div>                      
+                            </div> */}
                         </div>
                     </div>
                 </div>

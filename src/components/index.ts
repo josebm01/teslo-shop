@@ -1,3 +1,4 @@
+export * from "./paypal/PayPalButton";
 
 // Providers
 export * from "./providers/Providers";
@@ -21,4 +22,6 @@ export { Footer } from "./ui/footer/Footer";
 export { Title } from "./ui/title/Title";
 export { PageNotFound } from "./ui/not-found/PageNotFound";
 export { TopMenu } from "./ui/top-menu/TopMenu";
+
+
 

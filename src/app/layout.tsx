@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { inter } from "@/config/fonts";
-import { Provider } from "@/components";
+import { Providers } from "@/components";
 
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
     <html lang="en">
       <body className={inter.className}>
         {/* Provider para la sessión */}
-        <Provider>{children}</Provider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
