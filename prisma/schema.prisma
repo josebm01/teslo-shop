@@ -135,6 +135,9 @@ model Order {
 
     OrderItem OrderItem[]
     OrderAddress OrderAddress?
+
+    // Id de la transacción para el pago - banco
+    transactionId String?
 }
 
 
