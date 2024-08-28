@@ -1,5 +1,3 @@
-
-
 export * from "./auth/login";
 export { logout } from "./auth/logout";
 export * from "./auth/register";
@@ -17,5 +15,9 @@ export * from "./order/place-order";
 
 export * from "./order/get-order-by-id";
 export * from "./order/get-order-by-user";
+export * from "./order/get-paginated-orders";
 export * from "./payments/set-transaction-id";
 export * from "./payments/paypal-check-payment";
+
+export * from "./user/get-paginated-user";
+export * from './user/change-user-role'
