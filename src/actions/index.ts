@@ -21,3 +21,5 @@ export * from "./payments/paypal-check-payment";
 
 export * from "./user/get-paginated-user";
 export * from './user/change-user-role'
+
+export * from './category/get-categories'
