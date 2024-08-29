@@ -64,10 +64,6 @@ export const Pagination = ({ totalPages }: Props) => {
             </li>
             
 
-
-
-
-aaaa
             {
                 allPages.map( (page, index) => (
                     <li key={ index + '-' + index } className="page-item">
@@ -76,7 +72,7 @@ aaaa
                             clsx(
                                 "page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none",
                                {
-                                "bg-indigo-600 shadow-sm text-white hover:text-white hover:bg-indigo-500": page == currentPage,
+                                "bg-indigo-700 shadow-sm text-white hover:text-white hover:bg-indigo-500": page == currentPage,
                                }
                             )
                         }
@@ -84,7 +80,6 @@ aaaa
                     </li>
                 ))
             }
-
 
             
             <li className="page-item">
