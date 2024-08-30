@@ -1,10 +1,13 @@
 "use client";
 
-import { CategoryProduct, SeedProduct } from "@/interfaces";
+import { createUpdateProduct } from "@/actions";
+import { CategoryProduct, ProductImage, SeedProduct } from "@/interfaces";
+import clsx from "clsx";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 
 interface Props {
-  product: SeedProduct;
+  product: SeedProduct & {ProductImage?: ProductImage[]}; // elemento opcional
   categories: CategoryProduct[];
 }
 
@@ -28,7 +31,10 @@ export const ProductForm = ({ product, categories }: Props) => {
   const { 
     handleSubmit, 
     register,
-    formState: { isValid }
+    formState: { isValid },
+    getValues, // cambios que tiene el formulario
+    setValue, // establecer valores 
+    watch // actualizar el render
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,
@@ -37,9 +43,38 @@ export const ProductForm = ({ product, categories }: Props) => {
     }
   })
 
+  // actualiza la vista 
+  watch('sizes')
+
+
+  const onSizeChanged = ( size: string ) => {
+    const sizes = new Set( getValues('sizes') )
+    sizes.has( size ) ? sizes.delete(size) : sizes.add( size )
+    setValue('sizes', Array.from( sizes ))
+  }
+
 
   const onSubmit = async ( data: FormInputs) => {
 
+    // objeto de formulario
+    const formData = new FormData()
+
+    const { ...productToSave } = data
+
+    formData.append('id', product.id ?? '')
+    formData.append('title', productToSave.title )
+    formData.append('slug', productToSave.slug )
+    formData.append('description', productToSave.description )
+    formData.append('price', productToSave.price.toString() )
+    formData.append('inStock', productToSave.inStock.toString() )
+    formData.append('sizes', productToSave.sizes.toString() )
+    formData.append('tags', productToSave.tags )
+    formData.append('categoryId', productToSave.categoryId )
+    formData.append('gender', productToSave.gender )
+
+
+    const { ok } = await createUpdateProduct( formData )
+    console.log(ok)
   }
 
   return (
@@ -117,7 +152,18 @@ export const ProductForm = ({ product, categories }: Props) => {
             {
               sizes.map( size => (
                 // bg-blue-500 text-white <--- si está seleccionado
-                <div key={ size } className="flex  items-center justify-center w-10 h-10 mr-2 border rounded-md">
+                <div 
+                  key={ size } 
+                  onClick={ () => onSizeChanged( size ) }
+                  className={
+                    clsx(
+                      "p-2 border cursor-pointer rounded-md mr-2 mb-2 w-14 transition-all text-center",
+                      {
+                        'bg-blue-500 text-white': getValues('sizes').includes( size )
+                      }
+                    )
+                  }
+                >
                   <span>{ size }</span>
                 </div>
               ))
@@ -136,6 +182,30 @@ export const ProductForm = ({ product, categories }: Props) => {
               accept="image/png, image/jpeg"
             />
 
+          </div>
+
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {
+              product.ProductImage?.map( image => (
+                <div key={ image.id }>
+                  <Image 
+                    alt={ product.title ?? '' }
+                    src={`/products/${image.url}`}
+                    width={ 300 }
+                    height={ 300 }
+                    className="rounded-t shadow-md"
+                  />
+
+                  <button 
+                    type="button"
+                    className="btn-danger rounded-b-xl w-full"
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              ))
+            }
           </div>
 
         </div>

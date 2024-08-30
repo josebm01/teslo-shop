@@ -13,10 +13,8 @@ export default async function ProductPage({ params }: Props) {
 
     const { slug } = params 
 
-
-
     const [product, categories] = await Promise.all([
-        getProductBySlug( slug ) ,
+        getProductBySlug( slug ),
         getCategories()
     ])
 

@@ -1,5 +1,5 @@
 export interface SeedProduct {
-    // id: string;
+    id: string;
     description: string;
     images: string[];
     inStock: number;
@@ -27,6 +27,12 @@ export interface SeedProduct {
     name: string;
     password: string;
     role: 'admin'|'user';
+  }
+  
+  export interface ProductImage {
+    id: string;
+    url: string;
+    productId: string;
   }
   
   export type Category = 'men'|'women'|'kid'|'unisex';
