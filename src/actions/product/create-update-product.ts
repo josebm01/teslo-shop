@@ -1,6 +1,8 @@
 'use server'
 
-import { Gender } from '@prisma/client'
+import prisma from '@/lib/prisma'
+import { Gender, Product, Size } from '@prisma/client'
+import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 
 // Esquema de validación
@@ -34,9 +36,73 @@ export const createUpdateProduct = async ( formData: FormData ) => {
         return { ok: false }
     }
 
-    console.log(productParsed.data)
+    const product = productParsed.data
+    product.slug = product.slug.toLowerCase().replace(/ /g, '-').trim()
 
-    return {
-        ok: true
+    const { id, ...rest } = product
+
+    try {
+        const prismaTx = await prisma.$transaction( async (tx) => {
+    
+            let product: Product
+            const tagsArray = rest.tags.split(',').map( tag => tag.trim().toLowerCase() )
+    
+            if ( id ) {
+                // Actualizar 
+                product = await prisma.product.update({
+                    where: { id },
+                    data: {
+                        ...rest,
+                        sizes: {
+                            set: rest.sizes as Size[]
+                        },
+                        tags: tagsArray
+                    }
+                })
+    
+                console.log({ updated: product })
+    
+            } else {
+                // Crear
+                product = await prisma.product.create({
+                    data: {
+                        ...rest,
+                        sizes: {
+                            set: rest.sizes as Size[]
+                        },
+                        tags: {
+                            set: tagsArray
+                        }
+                    }
+                })
+            }
+    
+            console.log({ product })
+    
+            return {
+                product
+            }
+        
+        })
+
+        // Revalidaciones de path
+        revalidatePath('/admin/products')
+        revalidatePath(`/admin/product/${ product.slug }`)
+        revalidatePath(`/product/${ product.slug }`)
+
+
+        return {
+            ok: true,
+            product: prismaTx.product
+        }
+
+    } catch (error) {
+        console.log( error )
+
+        return {
+            ok: false,
+            message: 'evisar los logs, no se puede actualizar/crear'
+        }
     }
+
 }

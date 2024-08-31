@@ -1,3 +1,4 @@
+
 // Providers
 export * from "./providers/Providers";
 
@@ -11,6 +12,7 @@ export { StockLabel } from "./product/stock-label/StockLabel";
 // Productos 
 export { ProductGridItem } from "./products/product-grid/ProductGridItem";
 export { ProductGrid } from "./products/product-grid/ProductGrid";
+export * from "./product/product-image/ProductImage";
 
 export { Sidebar } from "./sidebar/Sidebar";
 
