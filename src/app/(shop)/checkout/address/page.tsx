@@ -3,7 +3,7 @@ import { AddressForm } from './ui/AddressForm';
 import { getCountries, getUserAddress } from '@/actions';
 import { auth } from '@/auth.config';
 
-export default async function() {
+export default async function pageAddress() {
 
   const countries = await getCountries()
   const session = await auth()

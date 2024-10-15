@@ -7,7 +7,7 @@ import { Pagination, Title } from '@/components';
 import { redirect } from 'next/navigation';
 import { UserTable } from './ui/UserTable';
 
-export default async function() {
+export default async function pageUsers() {
 
   const { ok, users = [] } = await getPaginatedUsers()
 

@@ -10,7 +10,7 @@ interface Props {
   }
 }
 
-export default async function({ searchParams }: Props) {
+export default async function pageProducts({ searchParams }: Props) {
 
   const page = searchParams.page ? parseInt( searchParams.page ) : 1
 

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { IoCardOutline } from 'react-icons/io5';
 
-export default async function() {
+export default async function pageOrders() {
 
   const { ok,orders = [] } = await getPaginatedOrders()
 

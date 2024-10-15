@@ -1,7 +1,7 @@
 import { auth } from "@/auth.config"
 import { redirect } from "next/navigation"
 
-export default async function  ({ children }: { children: React.ReactNode }) {
+export default async function layout ({ children }: { children: React.ReactNode }) {
 
     const session = await auth()
 

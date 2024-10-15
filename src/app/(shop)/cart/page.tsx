@@ -4,7 +4,7 @@ import { ProducsInCart } from "./ui/ProducsInCart";
 import { OrderSummary } from "./ui/OrderSummary";
 
 
-export default function() {
+export default function pageCart() {
 
     // redirect('/empty')
 

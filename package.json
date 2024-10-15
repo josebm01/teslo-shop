@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "prisma": "npm run prisma:deploy && next build",
     "lint": "next lint",
     "seed": "ts-node src/seed/seed-database.ts"
   },

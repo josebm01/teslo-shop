@@ -15,7 +15,7 @@ interface Props {
     }
 }
 
-export default async function({ params, searchParams }: Props) {
+export default async function PageGender({ params, searchParams }: Props) {
 
     console.log( params )
 
