@@ -1,3 +1,4 @@
+
 export * from "./auth/login";
 export { logout } from "./auth/logout";
 export * from "./auth/register";
@@ -6,6 +7,7 @@ export * from "./product/product-pagination";
 export * from "./product/get-product-by-slug";
 export * from "./product/get-stock-by-slug";
 export * from "./product/create-update-product";
+export * from "./product/delete-product-image";
 
 export * from "./country/get-countries";
 
@@ -24,3 +26,4 @@ export * from "./user/get-paginated-user";
 export * from './user/change-user-role'
 
 export * from './category/get-categories'
+
